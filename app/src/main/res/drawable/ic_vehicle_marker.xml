@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="44dp"
+    android:height="44dp"
+    android:viewportWidth="44"
+    android:viewportHeight="44">
+    <!-- 반투명 외곽 펄스 원 -->
+    <path
+        android:fillColor="#330288D1"
+        android:pathData="M22,22m-19,0a19,19 0,1 1,38,0a19,19 0,1 1,-38,0" />
+
+    <!-- 외곽 흰색 테두리 화살표 (도로 위 시인성 확보) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M22,4 L36,36 L22,28 L8,36 Z" />
+
+    <!-- 내부 선명한 블루 내비게이션 방향 화살표 -->
+    <path
+        android:fillColor="#0288D1"
+        android:pathData="M22,7.5 L33,33 L22,26.5 L11,33 Z" />
+</vector>

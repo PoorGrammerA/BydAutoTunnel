@@ -1,0 +1,60 @@
+name: Generate tunnel database
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  schedule:
+    - cron: '17 3 1 * *'  # 매월 1일 UTC 03:17 정기 갱신
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install OSM conversion tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y osmium-tool
+
+      - name: Generate SQLite database from OpenStreetMap
+        run: |
+          mkdir -p dist
+          python3 tools/generate_tunnel_database.py \
+            --output dist/korea_road_tunnels.sqlite
+          cp app/src/main/assets/TUNNEL_DATA_LICENSE.md dist/TUNNEL_DATA_LICENSE.md
+
+      - name: Build compact AutoTunnel binary asset (tunnels_kr.bin)
+        run: |
+          python3 tools/build_tunnel_asset.py \
+            --input dist/korea_road_tunnels.sqlite \
+            --output dist/tunnels_kr.bin
+
+      - name: Upload database artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-tunnel-database-assets
+          path: dist/
+          if-no-files-found: error
+
+      - name: Attach database package to the release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" dist/* --clobber

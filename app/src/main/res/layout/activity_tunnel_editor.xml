@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#121316">
+
+    <!-- Top Action Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:background="#1E2024"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="← 뒤로"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:backgroundTint="#37474F" />
+
+        <TextView
+            android:id="@+id/tv_editor_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="터널 DB 편집기"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_json_backup"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="JSON 백업/복원"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:backgroundTint="#00838F" />
+    </LinearLayout>
+
+    <!-- Guide / Notification Banner -->
+    <LinearLayout
+        android:id="@+id/layout_guide_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#2E7D32"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_guide_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="지도를 탭하여 터널 입구를 지정하세요 (1/2)"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_use_current_loc_as_entrance"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="현재 위치를 입구로"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1565C0"
+            android:layout_marginEnd="6dp" />
+
+        <Button
+            android:id="@+id/btn_cancel_add_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:text="취소"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#C62828" />
+    </LinearLayout>
+
+    <!-- Map Container -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/editor_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Floating Controls on Top-Right of Map -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp">
+
+            <Button
+                android:id="@+id/btn_start_add_tunnel"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="+ 새 터널 추가"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:backgroundTint="#2E7D32"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btn_center_current_location"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="내 위치 이동"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:backgroundTint="#37474F" />
+        </LinearLayout>
+
+        <!-- Bottom Edit Panel (Card) -->
+        <LinearLayout
+            android:id="@+id/layout_bottom_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D91E2024"
+            android:layout_gravity="bottom"
+            android:padding="12dp"
+            android:visibility="gone">
+
+            <!-- Title & Status Badge -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <EditText
+                    android:id="@+id/et_tunnel_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="터널 이름 입력"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#90A4AE"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/tv_tunnel_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="[기본 터널]"
+                    android:textColor="#80D8FF"
+                    android:textSize="13sp"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp" />
+
+                <TextView
+                    android:id="@+id/tv_tunnel_length_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="길이: 850m"
+                    android:textColor="#CFD8DC"
+                    android:textSize="13sp"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <!-- Angle / Bearing Control -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="방위각:"
+                    android:textColor="#CFD8DC"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/btn_bearing_minus_5"
+                    android:layout_width="48dp"
+                    android:layout_height="36dp"
+                    android:text="-5°"
+                    android:textSize="11sp"
+                    android:backgroundTint="#455A64" />
+
+                <Button
+                    android:id="@+id/btn_bearing_minus_1"
+                    android:layout_width="48dp"
+                    android:layout_height="36dp"
+                    android:text="-1°"
+                    android:textSize="11sp"
+                    android:backgroundTint="#455A64"
+                    android:layout_marginStart="4dp" />
+
+                <TextView
+                    android:id="@+id/tv_current_bearing"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="180.0°"
+                    android:textColor="#FFE082"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_bearing_plus_1"
+                    android:layout_width="48dp"
+                    android:layout_height="36dp"
+                    android:text="+1°"
+                    android:textSize="11sp"
+                    android:backgroundTint="#455A64" />
+
+                <Button
+                    android:id="@+id/btn_bearing_plus_5"
+                    android:layout_width="48dp"
+                    android:layout_height="36dp"
+                    android:text="+5°"
+                    android:textSize="11sp"
+                    android:backgroundTint="#455A64"
+                    android:layout_marginStart="4dp" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_tunnel_oneway"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="일방통행"
+                    android:textColor="#ECEFF1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Start Box Distance Options -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Box 감지 거리:"
+                    android:textColor="#CFD8DC"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/btn_start_dist_150"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:text="150m"
+                    android:textSize="11sp"
+                    android:backgroundTint="#37474F" />
+
+                <Button
+                    android:id="@+id/btn_start_dist_200"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:text="200m (기본)"
+                    android:textSize="11sp"
+                    android:backgroundTint="#0288D1"
+                    android:layout_marginStart="4dp" />
+
+                <Button
+                    android:id="@+id/btn_start_dist_250"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:text="250m"
+                    android:textSize="11sp"
+                    android:backgroundTint="#37474F"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/btn_delete_or_restore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="감지 제외 (삭제)"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:backgroundTint="#C62828" />
+
+                <Button
+                    android:id="@+id/btn_reset_to_default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="기본값 복원"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:backgroundTint="#546E7A"
+                    android:layout_marginStart="6dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btn_close_panel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="닫기"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:backgroundTint="#455A64"
+                    android:layout_marginEnd="6dp" />
+
+                <Button
+                    android:id="@+id/btn_save_changes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="저장하기"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:backgroundTint="#2E7D32" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

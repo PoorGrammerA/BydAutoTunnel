@@ -1,0 +1,44 @@
+*.iml
+.gradle
+/local.properties
+local.properties
+/.idea/
+.DS_Store
+/build
+/app/build
+app/release/
+/release
+dist/
+/captures
+.externalNativeBuild
+.cxx
+
+# Signing & Keystores (Security)
+*.jks
+*.keystore
+*.key
+*.pem
+*.p12
+*.pepk
+
+# Private configurations & secrets
+google-services.json
+secrets.properties
+
+# Built binaries & caches
+*.apk
+*.ap_
+*.aab
+*.dex
+.navigation/
+
+# Logs & temp files
+*.log
+temp_*
+
+# OS & Python generated
+Thumbs.db
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
